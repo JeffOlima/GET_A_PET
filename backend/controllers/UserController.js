@@ -43,6 +43,7 @@ module.exports = class UserController{
            res.status(422).json({
                message: 'This email already exists on the system!'
            })
+           return
        }
 
        //create a pasword
@@ -64,6 +65,38 @@ module.exports = class UserController{
        } catch (error) {
            res.status(500).json({ message: error})
        }
+    }
+    static async login(req, res){
+        const {email, password} = req.body
 
+        if(!email){
+            res.status(422).json({ message: 'email required!'})
+            return
+           } 
+
+           if(!password){
+            res.status(422).json({ message: 'Password required!'})
+            return
+           } 
+               
+           //check if user exists 
+          const user = await User.findOne({ email: email})
+        
+          if(!user){
+           res.status(422).json({
+               message: 'There is no account using this email!'
+           })
+           return
+       }
+       //check if password match with db password
+       const checkPassword = await bcrypt.compare(password, user.password)
+
+       if(!checkPassword){
+           res.status(422).json({
+               message: 'Invalid password',
+           })
+           return
+       }
+       await createUserToken(user, req, res)
     }
 }
