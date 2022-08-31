@@ -119,4 +119,20 @@ module.exports = class UserController{
     }
     res.status(200).send(currentUser)
 }
+
+static async getUserById(req, res){
+    const id = req.params.id
+    
+    const user = await User.findById(id).select('-password')
+    
+    if(!user){
+        res.tatus(422).json({
+            message: 'User not found!'
+        })
+        return
+    }
+
+    res.status(200).json({user})
+}
+
 }
