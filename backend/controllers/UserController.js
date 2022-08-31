@@ -127,12 +127,19 @@ static async getUserById(req, res){
     
     if(!user){
         res.tatus(422).json({
-            message: 'User not found!'
+            message: 'User not found!',
         })
         return
     }
 
     res.status(200).json({user})
+}
+
+static async editUser(req, res){
+    res.status(200).json({
+        message: 'updated!',
+    })
+    return
 }
 
 }
