@@ -155,7 +155,7 @@ static async editUser(req, res){
 
     user.name = name
 
-    if(!email){
+    if (!email){
      res.status(422).json({ message: 'Email required !'})
      return
     }  
@@ -163,10 +163,8 @@ static async editUser(req, res){
  //check if email has already taken
  const userExists = await User.findOne({ email: email})
 
-   if(user.email !== email && userExists){
-       res.status(422).json({
-           message: 'Please use another email!',
-       })
+   if (user.email !== email && userExists){
+       res.status(422).json({ message: 'Please use another email!'})
        return
     }
 
@@ -177,23 +175,31 @@ static async editUser(req, res){
      return
     } 
 
-    if(!password){
-     res.status(422).json({ message: 'Password required!'})
-     return
-    } 
+    user.phone = phone
 
-    if(!confirmpassword){
-     res.status(422).json({ message: 'Confirmation required!'})
+    if (password != confirmpassword){
+     res.status(422).json({ message: 'Passwords do not match!'})
      return
-    } 
+    }else if(password == confirmpassword && password != null){
+        const salt = await bcrypt.genSalt(12)
+        const passwordHash = await bcrypt.hash(password, salt)
 
-    if(password !==confirmpassword){
-     res.status(422).json({
-      message: 'password and password confirmation do not match!'
-     })
-     return
+        user.password = passwordHash
     }
+    try {
+        //returns user updated data
+        const updatedUser = await User.findOneAndUpdate(
+          {_id: user._id },
+          {$set: user},
+          {new: true},
+        )
+        res.status(200).json({
+            message: 'User updated successfully!'
+        })
 
-}
-
+    } catch (err) {
+        res.status(500).json({ message: err})
+        return
+    }
+  }
 }
