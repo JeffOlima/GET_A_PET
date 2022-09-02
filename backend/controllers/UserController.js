@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 //helpers
 const createUserToken = require('../helpers/create-user-token')
 const getToken = require('../helpers/get-token')
+const getUserByToken = require('../helpers/get-user-by-token')
 
 module.exports = class UserController{
     static async register(req, res){
@@ -136,10 +137,63 @@ static async getUserById(req, res){
 }
 
 static async editUser(req, res){
-    res.status(200).json({
-        message: 'updated!',
-    })
-    return
+   const id = req.params.id
+
+   //check if user exists
+   const token = getToken(req)
+   const user = await getUserByToken(token)
+
+   const {name, email, phone, password, confirmpassword} = req.body 
+
+   let image = ''
+
+   //validations
+   if(!name){
+     res.status(422).json({ message: 'Name required !'})
+     return
+    }
+
+    user.name = name
+
+    if(!email){
+     res.status(422).json({ message: 'Email required !'})
+     return
+    }  
+
+ //check if email has already taken
+ const userExists = await User.findOne({ email: email})
+
+   if(user.email !== email && userExists){
+       res.status(422).json({
+           message: 'Please use another email!',
+       })
+       return
+    }
+
+    user.email = email
+
+    if(!phone){
+     res.status(422).json({ message: 'Phone required!'})
+     return
+    } 
+
+    if(!password){
+     res.status(422).json({ message: 'Password required!'})
+     return
+    } 
+
+    if(!confirmpassword){
+     res.status(422).json({ message: 'Confirmation required!'})
+     return
+    } 
+
+    if(password !==confirmpassword){
+     res.status(422).json({
+      message: 'password and password confirmation do not match!'
+     })
+     return
+    }
+
 }
 
 }
