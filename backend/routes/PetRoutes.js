@@ -13,4 +13,6 @@ verifyToken,
 imageUpload.array('images'), 
 PetController.create,)
 
+router.get('/', PetController.getAll)
+
 module.exports = router
