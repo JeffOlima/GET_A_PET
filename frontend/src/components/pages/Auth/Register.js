@@ -1,5 +1,4 @@
 import {useState, useContext} from 'react'
-
 import Input from '../../form/Input'
 import {Link} from 'react-router-dom'
 
@@ -13,12 +12,11 @@ function Register(){
     const { register } = useContext(Context)
 
     function handleChange(e){
-        setUser({ ...useState,[e.target.name]: e.target.value })
+        setUser({ ...user,[e.target.name]: e.target.value })
     }
 
     function handleSubmit(e){
-        e.preventDfault()
-        //send the user to the database
+        e.preventDefault()
         register(user)
     } 
 
