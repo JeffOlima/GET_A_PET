@@ -18,7 +18,7 @@ function input({
             id={name}
             placeholder={placeholder}
             onChange={handleOnChange}
-            valu={value}
+            value={value}
             {...(multiple ? {multiple}: ' ')}
 
             />
