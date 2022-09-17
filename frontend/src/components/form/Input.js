@@ -1,6 +1,6 @@
 import styles from './Input.module.css'
 
-function input({
+function Input({
     type,
     text,
     name,
@@ -26,4 +26,4 @@ function input({
     )
 }
 
-export default input
+export default Input
