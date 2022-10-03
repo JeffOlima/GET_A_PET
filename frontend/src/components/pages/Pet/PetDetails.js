@@ -9,9 +9,19 @@ import styles from './PetDetails.module.css'
 import useFlashMessage from '../../../hooks/useFlashMessage'
 
 function PetDetails(){
-    return(
-        <h1>Pet Page</h1>
-    )
+    const [pet, setPet] = useState({})
+    const {id} = useParams()
+    const {setFlashMessage} = useFlashMessage
+    const [token] = useState(localStorage.getItem('token') || '')
+
+    useEffect(() =>{
+        api.get(`/pets${id}`).then((response) =>{
+            setPet(response.data.pet)
+        })
+    }, [id])
+    
+    
+    return <h1>{pet.name}</h1>
 }
 
 export default PetDetails
