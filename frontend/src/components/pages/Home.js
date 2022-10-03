@@ -28,7 +28,6 @@ function Home(){
                     }}
                     className={styles.pet_card_image}>
                     </div>
-                      <p>Imagem do Pet</p>
                       <h3>{pet.name}</h3>
                       <p>
                           <span className='bold'>Weight</span> {pet.weight}Kg
