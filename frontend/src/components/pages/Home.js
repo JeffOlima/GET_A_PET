@@ -17,13 +17,17 @@ function Home(){
     
     return(
         <section>
-          <div>
+          <div className={styles.pet_home_header}>
           <h1>Adopt a pet</h1>
             <p>See the details of all of them and contatct their owner</p>
           </div>
-          <div>
+          <div className={styles.pet_container}>
               {pets.length > 0 && pets.map((pet) =>(
-                  <div>
+                  <div className={styles.pet_card}>
+                      <div style={{backgroundImage: `url(${process.env.REACT_APP_API}/images/pets/${pet.images[0]})`,
+                    }}
+                    className={styles.pet_card_image}>
+                    </div>
                       <p>Imagem do Pet</p>
                       <h3>{pet.name}</h3>
                       <p>
@@ -32,7 +36,7 @@ function Home(){
                       {pet.available ? (
                           <Link to={`pet/${pet._id}`}>More details</Link>
                        ) : (
-                        <p>Adopted</p>
+                        <p className={styles.adopted_text}>Adopted</p>
                         )} 
                   </div>
              ))}
