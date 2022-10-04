@@ -75,8 +75,7 @@ function MyPets(){
                 ) : <p>Pet already adopted</p>}
               </div>
             </div>
-                ))
-                }
+                ))}
                 {pets.length === 0 && <p>No Pets registered </p>}                
             </div>
         </section>
