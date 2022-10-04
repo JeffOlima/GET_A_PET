@@ -11,7 +11,7 @@ import useFlashMessage from '../../../hooks/useFlashMessage'
 function PetDetails(){
     const [pet, setPet] = useState({})
     const {id} = useParams()
-    const {setFlashMessage} = useFlashMessage
+    const {setFlashMessage} = useFlashMessage()
     const [token] = useState(localStorage.getItem('token') || '')
 
     useEffect(() =>{
@@ -19,6 +19,24 @@ function PetDetails(){
             setPet(response.data.pet)
         })
     }, [id])
+
+    async function schedule(){
+        let msgType = 'success'
+
+        const data = await api
+        .patch(`pets/schedule/${pet._id}`, {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+        })
+        .then((response) => {
+            return response.data
+        })
+        .catch((err) => {
+            msgType = 'error'
+            return err.response.data
+        })
+
+        setFlashMessage(data.message, msgType)
+    }
     
     return (
         <>
@@ -44,7 +62,7 @@ function PetDetails(){
                     <span className='bold'>Age:</span>{pet.age} years old
                 </p>
                 {token ? (
-                    <button>Schedule a visit</button>
+                    <button onClick={schedule}>Schedule a visit</button>
                  ) : (
                     <p>
                        You need <Link to="/register">Create a account</Link> to schedule a visit    

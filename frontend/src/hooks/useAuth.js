@@ -6,9 +6,9 @@ import useFlashMessage from './useFlashMessage'
 
 export default function useAuth() {
     const [authenticated, setAuthenticated] = useState(false)
-    const {setFlashMessage} = useFlashMessage()
     const history = useHistory()
-
+    const {setFlashMessage} = useFlashMessage()
+    
     useEffect(() => {
         const token = localStorage.getItem('token') 
 
@@ -38,8 +38,6 @@ export default function useAuth() {
 
         setFlashMessage(msgText, msgType)
     }
-
-
     async function login(user){
         let msgText = 'Login successfully!'
         let msgType = 'success'
@@ -60,7 +58,6 @@ export default function useAuth() {
 
     async function authUser(data){
         setAuthenticated(true)
-
         localStorage.setItem('token', JSON.stringify(data.token))
 
         history.push('/')
