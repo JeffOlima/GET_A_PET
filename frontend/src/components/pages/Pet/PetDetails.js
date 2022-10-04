@@ -23,12 +23,12 @@ function PetDetails(){
     return (
         <>
         {pet.name && (
-            <section>
-                <div>
+            <section className={styles.pet_details_container}>
+                <div className={styles.pet_details_header}>
                     <h1>Getting to know the pet: {pet.name}</h1>
                     <p>If you are interested, get in touch with the owner to visit it</p>
                 </div>
-                <div>
+                <div className={styles.pet_images}>
                     {pet.images.map((image, index) =>(
                        <img 
                        key={index}
